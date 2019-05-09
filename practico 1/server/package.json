@@ -1,0 +1,12 @@
+{
+  "name": "tateti",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1.hola_mundo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "1.hola_mundo"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,21 @@
+body {
+    background-attachment: yellow;
+}
+table td {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    background: whitesmoke;
+}
+
+.player0 {
+    background: grey;
+}
+
+.player1 {
+    background: gold;
+}
+
+.winner {
+    background: green;
+}
