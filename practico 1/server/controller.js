@@ -3,26 +3,35 @@ let partidasGanadas = {
     jugadorO: 0
 };
 
-function test(request, response){
+
+function getPartidas(request, response){
     response.writeHead(200, {"Content-Type": "aplication/json"})
-    //let obj = [1,2,23,3,3,];
+    
     response.write(JSON.stringify(partidasGanadas))
     response.end()
 }
 
 function savePartidas(request, response){
-    console.log(request.body);
-  
     
+
+    var obj = JSON.parse(request.body);
+    
+    if(obj.jugadorX == 1)
+    {
+        partidasGanadas.jugadorX = partidasGanadas.jugadorX + 1;
+        console.log("El Jugador X tiene partidas ganadas : " + partidasGanadas.jugadorX)
+    }
+    if(obj.jugadorO == 1)
+    {
+        partidasGanadas.jugadorO = partidasGanadas.jugadorO + 1;
+        console.log("El Jugador O tiene partidas ganadas : " + partidasGanadas.jugadorO)
+    }
+
     response.writeHead(200, {"Content-Type": "aplication/json"})
     
-    partidasGanadas.jugadorO = partidasGanadas.jugadorO + 1;
-    partidasGanadas.jugadorX = partidasGanadas.jugadorX + 1;
-
-
     response.write(JSON.stringify(partidasGanadas))
     response.end()
 }
 
-exports.test = test
+exports.getPartidas = getPartidas
 exports.savePartidas = savePartidas

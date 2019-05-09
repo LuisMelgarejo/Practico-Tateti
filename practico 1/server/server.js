@@ -8,7 +8,7 @@ server.on('request', (request, response) => {
     const routes = {
         "/":{
             method: "GET",
-            handler: controller.test
+            handler: controller.getPartidas
         },
         "/partida":{
             method: "POST",
