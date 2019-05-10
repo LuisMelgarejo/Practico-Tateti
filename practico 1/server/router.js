@@ -1,38 +1,8 @@
-// var url = require("url");
-
-// async function route(routes, request, response){
-//     try{
-//         const path = url.parse(request.url).pathname
-//         const method = request.method
-
-//         console.log(`Handling ${method} ${path}`)
-
-//         const routeFunc = routes[path];
-
-//         if (routeFunc
-//             && routeFunc.method.toUpperCase().indexOf(method.toUpperCase()) >= 0) {
-//             const promise = new Promise((resolve, reject) => {
-//                 try {
-//                     routeFunc.handler(request, response)
-//                     resolve()
-//                 } catch (error) {
-//                     console.log("error 1")
-//                     reject(error)
-//                 }
-//             });
-//             await promise
-//         }
-
-//     } catch(error) {
-//         console.log("error 2")
-
-//     }
-
-// }
-
-//exports.route = route
-
+const mime = require('mime-types')
+const fs = require("fs")
 var url = require("url");
+const path = require('path')
+
 
 // Handler error 500
 function handle500(request, response, error) {
@@ -48,20 +18,25 @@ function handle404(request, response) {
     response.end()
 }
 
-/* Handler del router
+function cargarArchivosEstaticos(request, response) {
+    console.log("luis");
+    var path = url.parse(request.url).pathname
+    path = "./Views"+path;
+	console.log(path)
+    
+    fs.readFile(path, function (err, data) {
+        if (err) {
+            handle404(request, response)
+            return;
+        }
 
-    routes tiene la siguiente estrucutra
+        response.writeHead(200, { "Content-Type": "text/html" })
+        response.write(data)
+        response.end()
+    })
+    
+}
 
-    {
-        "/path": {
-            method: "GET|POST|DELETE|PUT|HEADER|OPTIONS",
-            handler: functionToRun
-        },
-        ...
-    }
-
-    Method es un string con todos los methods que queramos permitir
-*/
 async function route(routes, request, response) {
     try {
         const method = request.method
@@ -69,6 +44,14 @@ async function route(routes, request, response) {
         console.log(`Handling ${method} ${path}`)
 
         const routeFunc = routes[path]
+        //console.log(routeFunc)
+        if(!routeFunc)
+        {
+            cargarArchivosEstaticos(request, response)
+            //console.log("static")
+            return
+        }
+
         if (routeFunc
             && routeFunc.method.toUpperCase().indexOf(method.toUpperCase()) >= 0) {
             const promise = new Promise((resolve, reject) => {
@@ -88,5 +71,5 @@ async function route(routes, request, response) {
     }
 };
 
-// Esto es un modulo, solo las cosas exportadas pueden verse desde otros archivos
+
 exports.route = route

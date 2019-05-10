@@ -1,12 +1,17 @@
 const http = require("http")
 const router = require("./router")
 const controller = require("./controller")
-
+const fs = require("fs")
 const server = http.createServer();
+
 
 server.on('request', (request, response) => {
     const routes = {
         "/":{
+            method: "GET",
+            handler: controller.homePage
+        },
+        "/obtenerDatos":{
             method: "GET",
             handler: controller.getPartidas
         },
@@ -14,7 +19,6 @@ server.on('request', (request, response) => {
             method: "POST",
             handler: controller.savePartidas
         }
-
     } 
 
     let body = [];
@@ -33,3 +37,7 @@ server.on('request', (request, response) => {
 
 server.listen(1010)
 console.log("Server iniciado")
+
+
+
+
